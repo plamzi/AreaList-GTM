@@ -3,9 +3,9 @@
 
 <h4>Description:</h4>
 
-This custom script for Google Tag Manager makes it easier to track multiple UI elements in GA & other Analytics tools based on visibility.
+This custom script for Google Tag Manager makes it easier to track multiple UI elements in GA & other Analytics tools based on visibility. Equally capable in SPA contexts, the script can track impressions and clicks across a wide variety of dynamic HTML found in the wild.
 
-In addition to reducing the complexity of robust visibility logic, the script features built-in persistence for efficient delayed collection and configurable GTM dataLayer pushes that work with a wide variety of implementations.
+In addition to reducing the complexities surrounding robust visibility logic, the script features built-in persistence for efficient delayed collection and configurable GTM dataLayer pushes that work with a wide variety of implementations.
 
 <h4>Requirements:</h4>
 
@@ -51,31 +51,31 @@ Create a GTM custom tag in your container of choice:
 
 <b>areas</b> - Array of Objects, each with the following properties:
 
-	area.name - The name of the area or UI element shown in reports.
+area.name - The name of the area or UI element shown in reports.
 
-	area.handle - The selector / jQuery handle used to identify this element.
+area.handle - The selector / jQuery handle used to identify this element.
 
-	area.title - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as <h1> tags. The title is added to the area.name.
+area.title - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as <h1> tags. The title is added to the area.name.
 
-	area.list - Optional list name for GA eCommerce Product Performance reporting.
+area.list - Optional list name for GA eCommerce Product Performance reporting.
 
-	area.cat - Optional category name for GA eCommerce Product Performance reporting.
+area.cat - Optional category name for GA eCommerce Product Performance reporting.
 
-	area.options - Object containing optional tracking conditions for this area.
-	
-		area.options.single - Set to true to only track this element if it is unique at the time, based on area.handle.
-		
-		area.options.multiple - Set to true to only track this element if more than one element responds to area.handle.
-		
-		area.options.clickable - Set to true to only track this element when it contains clickable elements.
-		
-		area.options.hastitle - Set to true to only track this element if the area.title selector returns a string.
-		
-		area.options.novischeck - Set to true to track this element as soon as it's detected, regardless of whether it has become visible to the end user.
-		
-		area.options.noclickdedupe - Set to true to disable click deduplication and track every click. Useful if the element responding to area.handle contains more than one clickable element and you wish to gauge overall engagement levels. Note that clickthrough rates (clicks / impressions) can then exceed 100% for this area.
-	
-	area.disable - Set to true to temporarily disable tracking for an individual definition.
+area.options - Object containing optional tracking conditions for this area.
+
+area.options.single - Set to true to only track this element if it is unique at the time, based on area.handle.
+
+area.options.multiple - Set to true to only track this element if more than one element responds to area.handle.
+
+area.options.clickable - Set to true to only track this element when it contains clickable elements.
+
+area.options.hastitle - Set to true to only track this element if the area.title selector returns a string.
+
+area.options.novischeck - Set to true to track this element as soon as it's detected, regardless of whether it has become visible to the end user.
+
+area.options.noclickdedupe - Set to true to disable click deduplication and track every click. Useful if the element responding to area.handle contains more than one clickable element and you wish to gauge overall engagement levels. Note that clickthrough rates (clicks / impressions) can then exceed 100% for this area.
+
+area.disable - Set to true to temporarily disable tracking for an individual definition.
 
 <b>cat</b> - Default GA eCommerce Product Category name for all impressions & clicks. If not specified, the page title is picked up.
 
