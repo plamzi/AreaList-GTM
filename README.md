@@ -47,15 +47,17 @@ Create a GTM custom tag in your container of choice:
 
 <b>Note:</b> In most situations, you would want to include the contents of the main script inline rather than via a GitHub link.
 
+<b>Note:</b> More advanced implementations may populate elements of arealist_config using GTM variables.
+
 <h4>Configuration:</h4>
 
-<b>areas</b> - Array of Objects, each with the following properties:
+<b>areas</b> - Array of area objects, each with the following properties:
 
 area.name - The name of the area or UI element shown in reports.
 
 area.handle - The selector / jQuery handle used to identify this element.
 
-area.title - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as <h1> tags. The title is added to the area.name.
+area.title - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as e. g. h1 tags. The title is added to the area name in impression and click reporting.
 
 area.list - Optional list name for GA eCommerce Product Performance reporting.
 
