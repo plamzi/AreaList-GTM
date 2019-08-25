@@ -1,17 +1,17 @@
 <h2>AreaList GTM</h2>
-<h6>True View UI Element Tracker for Google Tag Manager</h6>
+<h4>True View UI Element Tracker for Google Tag Manager</h4>
 
-<h4>Description:</h4>
+<h2>Description:</h2>
 
 This custom script for Google Tag Manager makes it easier to track multiple UI elements in GA & other Analytics tools based on visibility. Equally capable in SPA contexts, the script can track impressions and clicks across a wide variety of dynamic HTML found in the wild.
 
 In addition to reducing the complexities surrounding robust visibility logic, the script features built-in persistence for efficient delayed collection and configurable GTM dataLayer pushes that work with a wide variety of implementations.
 
-<h4>Requirements:</h4>
+<h2>Requirements:</h2>
 
 jQuery 1.0 or later has to be loaded & available on the page prior to including the main AreaList script.
 
-<h4>Example:</h4>
+<h2>Example:</h2>
 
 Create a GTM custom tag in your container of choice:
 
@@ -26,7 +26,7 @@ Create a GTM custom tag in your container of choice:
 			{ name: 'IQA Grid', handle: '.iqa-grid div', title: 'h3' },
 			{ name: 'HP Video', handle: '.hp-video' },
 			{ name: 'Video CTA Button', handle: '.iqa-cta .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
-			{ name: 'HP Flow Graphic', handle: '.hp-flow-graphic' },
+			{ name: 'HP Flow Graphic', handle: '.hp-flow-graphic', options: { clickable: true } },
 			{ name: 'Flow CTA Button', handle: '.qa2l-flow .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
 			{ name: 'HP UI Graphic', handle: '.hp-ui-graphic' },
 		  
@@ -45,11 +45,11 @@ Create a GTM custom tag in your container of choice:
 
 ```
 
-<b>Note:</b> In most situations, you would want to include the contents of the main script inline rather than via a GitHub link.
+<b>Note:</b> In most situations, you'd want to include the contents of the main script inline rather than via the GitHub link shown in the basic example above.
 
-<b>Note:</b> More advanced implementations may populate elements of arealist_config using GTM variables.
+<b>Note:</b> More advanced implementations may choose to populate some or all parts of arealist_config using GTM variables.
 
-<h4>Configuration:</h4>
+<h2>Configuration:</h2>
 
 <b>areas</b> - Array of area objects, each with the following properties:
 
