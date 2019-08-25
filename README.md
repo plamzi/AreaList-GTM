@@ -53,31 +53,31 @@ Create a GTM custom tag in your container of choice:
 
 <b>areas</b> - Array of area objects, each with the following properties:
 
-area.name - The name of the area or UI element shown in reports.
+<b>area.name</b> - The name of the area or UI element shown in reports.
 
-area.handle - The selector / jQuery handle used to identify this element.
+<b>area.handle</b> - The selector / jQuery handle used to identify this element.
 
-area.title - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as e. g. h1 tags. The title is added to the area name in impression and click reporting.
+<b>area.title</b> - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as e. g. h1 tags. The title is added to the area name in impression and click reporting.
 
-area.list - Optional list name for GA eCommerce Product Performance reporting.
+<b>area.list</b> - Optional list name for GA eCommerce Product Performance reporting.
 
-area.cat - Optional category name for GA eCommerce Product Performance reporting.
+<b>area.cat</b> - Optional category name for GA eCommerce Product Performance reporting.
 
-area.options - Object containing optional tracking conditions for this area.
+<b>area.options</b> - Optional object containing tracking conditions for this area.
 
-area.options.single - Set to true to only track this element if it is unique at the time, based on area.handle.
+<b>area.options.single</b> - Set to true to only track this element if it is unique at the time, based on area.handle.
 
-area.options.multiple - Set to true to only track this element if more than one element responds to area.handle.
+<b>area.options.multiple</b> - Set to true to only track this element if more than one element responds to area.handle.
 
-area.options.clickable - Set to true to only track this element when it contains clickable elements.
+<b>area.options.clickable</b> - Set to true to only track this element when it contains clickable elements.
 
-area.options.hastitle - Set to true to only track this element if the area.title selector returns a string.
+<b>area.options.hastitle</b> - Set to true to only track this element if the area.title selector returns a string.
 
-area.options.novischeck - Set to true to track this element as soon as it's detected, regardless of whether it has become visible to the end user.
+<b>area.options.novischeck</b> - Set to true to track this element as soon as it's detected, regardless of whether it has become visible to the end user.
 
-area.options.noclickdedupe - Set to true to disable click deduplication and track every click. Useful if the element responding to area.handle contains more than one clickable element and you wish to gauge overall engagement levels. Note that clickthrough rates (clicks / impressions) can then exceed 100% for this area.
+<b>area.options.noclickdedupe</b> - Set to true to disable click deduplication and track every click. Useful if the element responding to area.handle contains more than one clickable element and you wish to gauge overall engagement levels. Note that clickthrough rates (clicks / impressions) can then exceed 100% for this area.
 
-area.disable - Set to true to temporarily disable tracking for an individual definition.
+<b>area.disable</b> - Set to true to temporarily disable tracking for an individual definition.
 
 <b>cat</b> - Default GA eCommerce Product Category name for all impressions & clicks. If not specified, the page title is picked up.
 
