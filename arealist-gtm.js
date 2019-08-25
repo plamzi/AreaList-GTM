@@ -1,5 +1,7 @@
 (function() {
 	
+	/* https://www.github.com/plamzi/AreaList-GTM - 8.25.2019 */
+	
 	var _ARL = function(settings) {
 	
 		settings = settings || {};
@@ -10,7 +12,9 @@
 			
 			clicks_event_name: 'AreaList Clicks',
 			
-			storage_key_name: 'AreaList_GTM'
+			storage_key_name: 'AreaList_GTM',
+			
+			data_layer_name: 'dataLayer'
 		};
 
 		settings.areas = settings.areas || [];
@@ -40,7 +44,9 @@
 	       
 	        clickable: 'a, button, input, select, .btn, .button, [onclick], .dropdown, .dropdown-toggle, .clickable, label, *[data-target], i, textarea',
 	
-	        snap: `<div class='arlg' style='position: absolute; z-index: 100000; top: {1}px; left: {2}px; width: {3}px; height: {4}px; box-shadow: inset 0px 0px 30px -3px rgba(194,31,31,1); background: white;'></div>`
+	        snap: `<div class='arlg' style='position: absolute; z-index: 100000; top: {1}px; left: {2}px; width: {3}px; height: {4}px; box-shadow: inset 0px 0px 30px -3px rgba(194,31,31,1); background: white;'></div>`,
+	        
+	        layer: settings.global.data_layer_name
 	    };
 	   
 	    var j = (function() {
@@ -121,7 +127,7 @@
 	 
 	    var collect = function(evt, nodes) {
 	        
-	    	//if (evt != 'poll')
+	    	if (evt != 'poll')
 	    		log('collect:', evt);
 	    	
 	    	var imps = [];
@@ -351,8 +357,10 @@
 	
 	    		log('push impressions:', imp);
 	
-	    		dataLayer.push({
+	    		!window[data.layer] || window[data.layer].push({
+	    			
 		    		event: settings.global.impressions_event_name,
+		    		
 		    		ecommerce: { impressions: imp }
 	    		});
 	    	}
@@ -377,7 +385,7 @@
 	
 	    		log('push clicks:', clicks);
 	
-				dataLayer.push({
+				!window[data.layer] || window[data.layer].push({
 					
 				  event: settings.global.clicks_event_name,
 				 

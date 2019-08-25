@@ -8,6 +8,10 @@ Makes it easier to track multiple hot areas / SPA modules in GA & other Analytic
 
 Features via built-in persistence and configurable GTM dataLayer pushes.
 
+<h4>Requirements:</h4>
+
+jQuery 1.0 or later has to be loaded & available on the page prior to including the main AreaList script.
+
 <h4>Example:</h4>
 
 Create a GTM custom tag in your container of choice:
@@ -17,9 +21,7 @@ Create a GTM custom tag in your container of choice:
 <script>
 
   var arealist_config = {
-  
-    design: true,
-    
+
     debug: true,
     
     areas: [
