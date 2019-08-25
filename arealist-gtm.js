@@ -1,29 +1,30 @@
 (function() {
 	
-	/* https://www.github.com/plamzi/AreaList-GTM - 8.25.2019 */
+	/* https://www.github.com/plamzi/AreaList-GTM 
+	 * 
+	 * v1.0.0
+	 * 
+	*/
 	
 	var _ARL = function(settings) {
 	
 		settings = settings || {};
-	
-		settings.global = settings.global || {
-			
-			impressions_event_name: 'AreaList Impressions',
-			
-			clicks_event_name: 'AreaList Clicks',
-			
-			storage_key_name: 'AreaList_GTM',
-			
-			data_layer_name: 'dataLayer'
-		};
 
 		settings.areas = settings.areas || [];
 
+		settings.data_layer_name = settings.data_layer_name || 'dataLayer'; 
+			
+		settings.polling_frequency = settings.polling_frequency || 3; 
+	
+		settings.impressions_event_name = settings.impressions_event_name || 'AreaList Impressions',
+		
+		settings.clicks_event_name = settings.clicks_event_name || 'AreaList Clicks',
+		
+		settings.storage_key_name = settings.storage_key_name || 'AreaList_GTM';
+			
 	    var data = {
-	    		
+
 	    	on: {},
-	    	
-	    	global: settings.global,
 	    	
 	      	areas: settings.areas,
 	      
@@ -36,17 +37,15 @@
 	        clicked: [],
 	       
 	        track: {
-	        	impressions: !settings.global.disable && !settings.disable_impressions,
-	        	clicks: !settings.global.disable && !settings.disable_clicks,
-	        	store: !settings.disable_storage,
-	        	debug: settings.debug
+	        	impressions: !settings.disable_impressions,
+	        	clicks: !settings.disable_clicks
 	        },
-	       
+	      
 	        clickable: 'a, button, input, select, .btn, .button, [onclick], .dropdown, .dropdown-toggle, .clickable, label, *[data-target], i, textarea',
 	
 	        snap: `<div class='arlg' style='position: absolute; z-index: 100000; top: {1}px; left: {2}px; width: {3}px; height: {4}px; box-shadow: inset 0px 0px 30px -3px rgba(194,31,31,1); background: white;'></div>`,
 	        
-	        layer: settings.global.data_layer_name
+	        layer: settings.data_layer_name
 	    };
 	   
 	    var j = (function() {
@@ -54,7 +53,7 @@
 	      	return window.jQuery;
 	      
 	    })();
-	
+
 		var clickable = function(e) {
 			
 			return j(e).find(data.clickable).length;
@@ -67,7 +66,7 @@
 		
 		var log = function() {
 	
-			if (data.track.debug) {
+			if (settings.debug) {
 		
 				[].unshift.call(arguments, '\uD83D\uDC41 [AreaList GTM]');
 				console.log.apply(null, arguments);
@@ -91,8 +90,8 @@
 	    	if (!window.localStorage)
 	    		return log('save:', 'window.localStorage is not available...');
 	    	
-	    	if (!data.track.store)
-	    		return log('save:', 'global switch disable store is on, not persisting...');
+	    	if (settings.disable_storage)
+	    		return log('save:', 'global switch disable_storage is on, not persisting...');
 	
 	    	var store = {
 	    		url: location.href,
@@ -101,7 +100,7 @@
 	    		clicks: data.clicks
 	    	}
 	
-	    	localStorage.setItem(settings.global.storage_key_name, JSON.stringify(store));
+	    	localStorage.setItem(settings.storage_key_name, JSON.stringify(store));
 	    	
 	    	log('save:', store);
 	    };
@@ -134,15 +133,15 @@
 			
 		    data.areas.map(function(a) {
 		        
-	        	var tar = j(a.handle), needsti = (a.when && a.when.indexOf("needstitle") != -1);
+	        	var tar = j(a.handle), needsti = (a.options && a.options.hastitle);
 	        
 	        	if (tar.length == 0)
 	        		return /* log('collect area not found:', a.name, a.handle) */;
 	
-	    		if (a.when && a.when.indexOf('single') != -1 && tar.length > 1)
+	    		if (a.options && a.options.single && tar.length > 1)
 	    			return /* log('collect area condition is single match so skipping:', a.name, a.handle) */;
 	    			
-	    		if (a.when && a.when.indexOf('multiple') != -1 && tar.length == 1)
+	    		if (a.options && a.options.multiple && tar.length == 1)
 	    			return /* log('collect area condition is multiple match so skipping:', a.name, a.handle) */;
 	    		
 	        	tar.each(function() {
@@ -152,8 +151,8 @@
 	        		var d = {
 	        			name: a.name,
 	        			title: null,
-	        			list: a.list || location.pathname,
-	        			cat: a.cat || settings.global.cat
+	        			list: a.list || settings.list || location.pathname,
+	        			cat: a.cat || settings.cat || document.title
 	        		}
 
 		        	if (a.disabled)
@@ -187,17 +186,17 @@
 
 		        	if (!t.isVis()) {
 		      		
-		        		if (!a.when || a.when.indexOf('novischeck') == -1)
+		        		if (!a.options || a.options.novischeck)
 		        			return /* log('collect area here but not visible:', d.name, d.title) */;
 		        	}
 		        
 		        	if (!t.inView()) {
 		 
-		        		if (!a.when || a.when.indexOf('novischeck') == -1)
+		        		if (!a.options || a.options.novischeck)
 		        			return /* log('collect area here & visible but not in viewport:', d.name, d.title) */;
 		        	}
 	
-		        	if (a.when && a.when.indexOf('clickable') != -1 && !clickable(tar))
+		        	if (a.options && a.options.clickable != -1 && !clickable(tar))
 		        	  return /* log('collect area appears to contain no clickables:', d.name, d.title, tar.html()) */;
 	
 		        	if (data.track.impressions) {
@@ -206,7 +205,7 @@
 		        		imps.push(d);
 		        	}
 		        
-		        	if (data.track.debug) {
+		        	if (settings.debug) {
 		       
 		        		var rect = t.get(0).getBoundingClientRect();
 		        		var snap = format(data.snap, parseInt(rect.y) + j(document).scrollTop(), parseInt(rect.x) + j(document).scrollLeft(), parseInt(rect.width), parseInt(rect.height));
@@ -252,19 +251,19 @@
 	        	if (a.disabled)
 	        		return log('click area disabled:', a.name);
 	
-	    		if (a.when && a.when.indexOf('single') != -1 && j(a.handle).length > 1)
+	    		if (a.options && a.options.single && j(a.handle).length > 1)
 	    			return log('click area condition is single match so skipping:', a.name, a.handle);
 	    			
-	    		if (a.when && a.when.indexOf('multiple') != -1 && j(a.handle).length == 1)
+	    		if (a.options && a.options.multiple && j(a.handle).length == 1)
 	    			return log('click area condition is multiple match so skipping:', a.name, a.handle);
 	    		
-	        	var nodedup = ( a.when && a.when.indexOf('noclickdedup') != -1 );
+	        	var nodedup = ( a.options && a.options.noclickdedupe );
 	        
 	    		var d = {
 	        		name: a.name,
 	        		title: null,
-	        		list: a.list || location.pathname,
-	        		cat: a.cat || settings.global.cat
+	        		list: a.list || settings.list || location.pathname,
+	        		cat: a.cat || settings.cat || document.title
 	        	};
 	        	
 	        	if (a.title && p.find(a.title)) {
@@ -306,6 +305,12 @@
 	
 	      		save();
 	      		trigger('click', clicks, evt);
+	      		
+	      		if (settings.disable_storage) {
+	      		
+	      			push('clicks');
+	      			reset('clicks');
+	      		}
 		    }
 	    };
 	   
@@ -315,7 +320,7 @@
 	    	
 	    	if (window.localStorage) {
 	    		
-	    		store = localStorage.getItem(settings.global.storage_key_name);
+	    		store = localStorage.getItem(settings.storage_key_name);
 	
 	    		if (store)
 	    			store = JSON.parse(store);
@@ -326,7 +331,7 @@
 	    	if (!store) {
 	    		
 	    		log('fetch found no store or in-memory tracker, returning null');
-	    		return null;
+	    		return [];
 	    	}	
 
 	    	if (typeof store[what] != 'undefined')
@@ -359,7 +364,7 @@
 	
 	    		!window[data.layer] || window[data.layer].push({
 	    			
-		    		event: settings.global.impressions_event_name,
+		    		event: settings.impressions_event_name,
 		    		
 		    		ecommerce: { impressions: imp }
 	    		});
@@ -387,7 +392,7 @@
 	
 				!window[data.layer] || window[data.layer].push({
 					
-				  event: settings.global.clicks_event_name,
+				  event: settings.clicks_event_name,
 				 
 				  ecommerce: {
 					  click: {
@@ -442,9 +447,7 @@
 	        };
 	    
 	        j.fn.isVis = function() {
-	
-	        //	var rect = j(this).get(0).getBoundingClientRect();
-	        
+
 		        return j(this).is(':visible') && j(this).css('visibility') != 'hidden' && j(this).css('opacity') != '0';
 	        };
 	
@@ -469,9 +472,20 @@
 	      	log('init: now live with the following settings:', settings, 'inside', location.href);
 	
 	      	if (data.areas.length) {
-	      		
-	      		data._poll = setInterval(function() { collect('poll'); }, 3 * 1000);
+	      	
+	      		data._poll = setInterval(function() { collect('poll'); }, parseInt(settings.polling_frequency) * 1000);
 	      		log('init: polling activated for ' + data.areas.length + ' defined areas');
+	      	}
+	      	
+	      	if (settings.disable_storage) {
+	      		
+	      		window.addEventListener("beforeunload", function(e) {
+
+	      			push('impressions');
+	      			localStorage.removeItem(settings.storage_key_name);
+	      		});
+	      		
+	      		log('init: settings.disable_storage is on, will push impressions on beforeuload, instantly for clicks');
 	      	}
 	      	
 	      	return self;
