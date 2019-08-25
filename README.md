@@ -63,13 +63,13 @@ Create a GTM custom tag in your container of choice:
 
 <b>area.cat</b> - Optional category name for GA eCommerce Product Performance reporting.
 
-<b>area.options</b> - Optional object containing tracking conditions for this area.
+<b>area.options</b> - Optional object containing additional rules for this area.
 
-<b>area.options.single</b> - Set to true to only track this element if it is unique at the time, based on area.handle.
+<b>area.options.single</b> - Set to true to only track this element if it is unique at the time (as determined by area.handle). For example, you can track a single article or section HTML tag differently from pages with multiple articles or sections.
 
-<b>area.options.multiple</b> - Set to true to only track this element if more than one element responds to area.handle.
+<b>area.options.multiple</b> - Set to true to only track if more than one element responds to area.handle.
 
-<b>area.options.clickable</b> - Set to true to only track this element when it contains clickable elements.
+<b>area.options.clickable</b> - Set to true to only track this element only if it renders with at least one clickable element inside: links, buttons, form fields, etc.
 
 <b>area.options.hastitle</b> - Set to true to only track this element if the area.title selector returns a string.
 
@@ -100,3 +100,5 @@ Create a GTM custom tag in your container of choice:
 <b>clicks_event_name</b> - Default is 'AreaList Clicks'. Change it to see a different event name in data layer pushes.
 
 <b>polling_frequency</b> - Default is 3 sec. Setting this value to less is not recommended for reasons of performance and accuracy (a small delay on impression collection ensures the user has had time to see the element).
+
+<b>extend_clickable</b> - Extend the definition of clickable objects with this selector string. Use this if clicks on certain special divs, e. g., are not being captured.

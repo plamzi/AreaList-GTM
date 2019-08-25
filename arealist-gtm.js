@@ -48,6 +48,9 @@
 	        layer: settings.data_layer_name
 	    };
 	   
+	    if (settings.extend_clickable)
+	    	data.clickable += ', ' + settings.extend_clickable;
+	    
 	    var j = (function() {
 	  
 	      	return window.jQuery;
@@ -241,7 +244,7 @@
 	    	
 		    data.areas.map(function(a) {
 		        
-		    	//log('click begin eval:', JSON.stringify(a));
+		    	log('click begin eval:', JSON.stringify(a));
 		    
 	        	if (!tar.closest(a.handle).length)
 	        		return;
