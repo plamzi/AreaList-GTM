@@ -45,11 +45,11 @@ Create a GTM custom tag in your container of choice:
 
 ```
 
-**Note:** You may want to include the contents of the main script inline in many scenarios.
+<b>Note:</b> In most situations, you would want to include the contents of the main script inline rather than via a GitHub link.
 
 <h4>Configuration:</h4>
 
-<b>areas</b> - Array of Objects <area>
+<b>areas</b> - Array of Objects, each with the following properties:
 
 	area.name - The name of the area or UI element shown in reports.
 
