@@ -491,6 +491,8 @@
 	      		log('init: settings.disable_storage is on, will push impressions on beforeuload, instantly for clicks');
 	      	}
 	      	
+	      	delete window.arealist_config;
+	      
 	      	return self;
 		};
 		

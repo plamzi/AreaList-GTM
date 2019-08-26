@@ -63,7 +63,7 @@ Create a GTM custom tag in your container of choice:
 
 <b>area.handle</b> - The selector / jQuery handle used to identify this element.
 
-<b>area.title</b> - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as e. g. h1 tags. The title is added to the area name in impression and click reporting.
+<b>area.title</b> - Optional selector / handle from which to grab a unique title of this element. It can be used to disambiguate multiple areas responding to the area.handle based on dynamic strings such as e. g. h1 tags. The title is added to the area name in impression and click reporting. If the title is not found inside the element at area.handle, the script will look up to 3 levels up for peers matching the title selector.
 
 <b>area.list</b> - Optional list name for GA eCommerce Product Performance reporting.
 
