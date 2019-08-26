@@ -3,9 +3,13 @@
 
 <h2>Description:</h2>
 
-This custom script for Google Tag Manager makes it easier to track multiple UI elements in GA & other Analytics tools based on visibility. Equally capable in SPA contexts, the script can track impressions and clicks across a wide variety of dynamic HTML found in the wild.
+This custom script for Google Tag Manager makes it much easier to track impressions & clicks on a big number of UI elements based on visibility to the end user.
 
-In addition to reducing the complexities surrounding robust visibility logic, the script features built-in persistence for efficient delayed collection and configurable GTM dataLayer pushes that work with a wide variety of implementations.
+Equally capable in complex single-page app contexts, the script can track impressions and clicks across a wide variety of dynamic HTML out there in the wild. In other words, it doesn't matter how exactly the element becomes visible in the user's viewport.
+
+Native GTM triggers offer visibility logic, but are tedious to configure and troubleshoot. They also have to be configured for each individual element type, which makes it difficult to maintain for a big (or rapidly changing) set of elements.
+
+In addition to reducing the complexities surrounding robust visibility logic, the script features built-in persistence for efficient delayed collection (next onsite page load) and configurable GTM dataLayer pushes that work with a wide variety of implementations.
 
 <h2>Requirements:</h2>
 
@@ -28,14 +32,16 @@ Create a GTM custom tag in your container of choice:
 			{ name: 'Video CTA Button', handle: '.iqa-cta .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
 			{ name: 'HP Flow Graphic', handle: '.hp-flow-graphic', options: { clickable: true } },
 			{ name: 'Flow CTA Button', handle: '.qa2l-flow .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
-			{ name: 'HP UI Graphic', handle: '.hp-ui-graphic' },
-		  
+			{ name: 'Blog Article', handle: 'article', title: 'h1', options: { multiple: true } },
+			{ name: 'Article Body', handle: 'article', title: 'h1', options: { single: true } },
 		],
-   
+
 		cat: 'Homepage Engagement',
-		
+
 		list: document.title,
-		
+
+		extend_clickable: '.el-item',
+
 		debug: true
 	};
   
