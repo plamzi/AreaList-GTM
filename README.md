@@ -7,9 +7,9 @@ This custom script for Google Tag Manager makes it much easier to track impressi
 
 Equally capable in complex single-page app contexts, the script can track impressions and clicks across a wide variety of dynamic HTML out there in the wild. In other words, it doesn't matter how exactly the element becomes visible in the user's viewport.
 
-Native GTM triggers offer visibility logic, but are tedious to configure and troubleshoot. They also have to be configured for each individual element type, which makes it difficult to maintain for a big (or rapidly changing) set of elements.
+Native GTM triggers offer visibility logic, but are tedious to configure and troubleshoot. They also have to be configured for each individual element type, which makes them difficult to maintain for a big (or rapidly changing) set of elements. Re-using logic across multiple properties is also extremely tedious.
 
-In addition to reducing the complexities surrounding robust visibility logic, the script features built-in persistence for efficient delayed collection (next onsite page load) and configurable GTM dataLayer pushes that work with a wide variety of implementations.
+In addition to reducing the complexities surrounding the creation and maintenance of robust visibility logic, the script features built-in persistence for efficient delayed collection (next onsite page load) and configurable GTM dataLayer pushes that work with a wide variety of implementations.
 
 <h2>Requirements:</h2>
 
@@ -75,9 +75,9 @@ Create a GTM custom tag in your container of choice:
 
 <b>area.options.multiple</b> - Set to true to only track if more than one element responds to area.handle.
 
-<b>area.options.clickable</b> - Set to true to only track this element only if it renders with at least one clickable element inside: links, buttons, form fields, etc.
+<b>area.options.clickable</b> - Set to true to only track this element only if it renders with at least one clickable element inside: links, buttons, form fields, etc. This is useful if a CMS module, for instance, sometimes appears with nothing clickable in it.
 
-<b>area.options.hastitle</b> - Set to true to only track this element if the area.title selector returns a string.
+<b>area.options.hastitle</b> - Set to true to only track this element if the dynamic area.title selector returns a string for a given element.
 
 <b>area.options.novischeck</b> - Set to true to track this element as soon as it's detected, regardless of whether it has become visible to the end user.
 
@@ -85,11 +85,11 @@ Create a GTM custom tag in your container of choice:
 
 <b>area.disable</b> - Set to true to temporarily disable tracking for an individual definition.
 
+<b>debug</b> - Set to true to turn on verbose console logging and show flashes over areas when impressions are collected. This is super-helpful during initial implementation or adjustment.
+
 <b>cat</b> - Default GA eCommerce Product Category name for all impressions & clicks. If not specified, the page title is picked up.
 
 <b>list</b> - Default GA eCommerce Product List name. If not specified, the relative URL path is picked up.
-
-<b>debug</b> - Set to true to turn on verbose console logging and show flashes over areas when impressions are collected.
 
 <b>disable_impressions</b> - Set to true to disable impression tracking.
 
@@ -105,6 +105,6 @@ Create a GTM custom tag in your container of choice:
 
 <b>clicks_event_name</b> - Default is 'AreaList Clicks'. Change it to see a different event name in data layer pushes.
 
-<b>polling_frequency</b> - Default is 3 sec. Setting this value to less is not recommended for reasons of performance and accuracy (a small delay on impression collection ensures the user has had time to see the element).
+<b>polling_frequency</b> - Default is 3 sec. Setting this value to less than that is not recommended for reasons of both performance & accuracy (a small delay on impression collection ensures the user has had a chance to actually see the element).
 
 <b>extend_clickable</b> - Extend the definition of clickable objects with this selector string. Use this if clicks on certain special divs, e. g., are not being captured.
