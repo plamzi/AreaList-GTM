@@ -423,7 +423,7 @@
 				});
 	    	}
 	    };
-	    
+		
 	    var handle = function(t, p) {
 	    	
 	    	var h = '';
@@ -450,15 +450,15 @@
 	    
 	    	var at = document.elementFromPoint(data.mouse.x, data.mouse.y);
 	    	
-	    	if (data.highlighted == at)
+	    	if (!at || data.highlighted == at)
 	    		return;
 	    	
 	    	var rect = at.getBoundingClientRect();
 
 	    	if (rect.x <= 0 || rect.y <= 0)
 	    		return;
-	    	
-	    	log('highlight:', rect);
+	    
+	    	//log('highlight:', rect);
 	    	data.highlighted = at;
 	    	
 	    	var ha = handle(at, true);
@@ -483,7 +483,7 @@
 	    };
 	    
 	    var on = function(evt, cb) {
-	    
+		
 	    	log('_arlg.on', evt, cb);
 	    	
 	    	data.on[evt] = data.on[evt] || [];
