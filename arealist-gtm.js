@@ -175,7 +175,7 @@
 	        	tar.each(function() {
 	
 	        		var t = j(this);
-	        		
+	        	
 	        		var d = {
 	        			name: a.name,
 	        			title: null,
@@ -260,7 +260,7 @@
 	    	
 		    data.areas.map(function(a) {
 		        
-		    	log('click begin eval:', JSON.stringify(a));
+		    	//log('click begin eval:', JSON.stringify(a));
 		    
 	        	if (!tar.closest(a.handle).length)
 	        		return;
@@ -423,7 +423,7 @@
 				});
 	    	}
 	    };
-		
+	    
 	    var handle = function(t, p) {
 	    	
 	    	var h = '';
@@ -483,7 +483,7 @@
 	    };
 	    
 	    var on = function(evt, cb) {
-		
+	    
 	    	log('_arlg.on', evt, cb);
 	    	
 	    	data.on[evt] = data.on[evt] || [];
