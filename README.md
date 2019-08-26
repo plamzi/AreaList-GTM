@@ -31,7 +31,7 @@ Create a GTM custom tag in your container of choice:
 			{ name: 'HP Video', handle: '.hp-video' },
 			{ name: 'Video CTA Button', handle: '.iqa-cta .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
 			{ name: 'HP Flow Graphic', handle: '.hp-flow-graphic', options: { clickable: true } },
-			{ name: 'Flow CTA Button', handle: '.qa2l-flow .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
+			{ name: 'Flow CTA Button', handle: '.hp-flow .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
 			{ name: 'Blog Article', handle: 'article', title: 'h1', options: { multiple: true } },
 			{ name: 'Article Body', handle: 'article', title: 'h1', options: { single: true } },
 		],
@@ -85,7 +85,7 @@ Create a GTM custom tag in your container of choice:
 
 <b>area.disable</b> - Set to true to temporarily disable tracking for an individual definition.
 
-<b>debug</b> - Set to true to turn on verbose console logging and show flashes over areas when impressions are collected. This is super-helpful during initial implementation or adjustment.
+<b>debug</b> - Set to true to turn on verbose console logging, element inspection, flashes over active areas when impressions are collected. This mode is helpful during initial implementation or adjustment but should always be turned off in production.
 
 <b>cat</b> - Default GA eCommerce Product Category name for all impressions & clicks. If not specified, the page title is picked up.
 

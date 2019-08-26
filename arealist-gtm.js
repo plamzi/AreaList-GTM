@@ -45,6 +45,11 @@
 	
 	        snap: `<div class='arlg' style='position: absolute; z-index: 100000; top: {1}px; left: {2}px; width: {3}px; height: {4}px; box-shadow: inset 0px 0px 30px -3px rgba(194,31,31,1); background: white;'></div>`,
 	        
+	        highlight: `<div class='arlgh' style='pointer-events: none; position: absolute; z-index: 100000; top: {2}px; left: {3}px; width: {4}px; height: {5}px;'>
+	        				<div style='width: 100%; min-width: 200px; height: 20px; background-color: rgba(52,140,217,1); color: white; padding-left: 6px;'>{1}</div>
+	        				<div style='width: 100%; height: {6}px; box-shadow: 0px 0px 13px 0px rgba(52,140,217,1); background: transparent;'></div>
+	        			</div>`,
+	        
 	        layer: settings.data_layer_name
 	    };
 	   
@@ -127,6 +132,26 @@
 	    	save();
 	    };
 	 
+	    var title = function(a, t) {
+	    	
+	    	var ti = t.find(a.title).length ? t.find(a.title).first() : null;
+	    	var needsti = (a.options && a.options.hastitle);
+	    	 
+    		if (!ti)
+    			ti = t.parent().parent().parent().find(a.title).first();
+    		
+    		if (!ti && needsti)
+    			ti = t;
+    	
+    		if (ti)
+    			ti = ti.text().trim().replace(/[\r\n\t]+/g, ' ').replace(/ +/g, ' ');
+    	
+    		if (ti && ti.length > 50)
+    			ti = ti.substr(0, 50) + '..';
+    		
+    		return ti;
+	    }
+	    
 	    var collect = function(evt, nodes) {
 	        
 	    	if (evt != 'poll')
@@ -163,22 +188,13 @@
 	
 		        	if (a.title) {
 		        	
-		        		var ti = t.find(a.title).length ? t.find(a.title) : false;
-		        		
-		        		if (!ti && !needsti)
-		        			ti = t;
-		        		
-		        		if (ti)
-		        			ti = ti.text().trim().replace(/[\r\n\t]+/g, ' ').replace(/ +/g, ' ');
-		        	
-		        		if (ti && ti.length > 50)
-		        			ti = ti.substr(0, 50) + '..';
+		        		var ti = title(a, t);
 		        		
 		        		if (ti)
 		        			d.title = ti;
 		        		else
 		        		if (needsti)
-		        			return /* log('collect area condition is needs title so skipping:', d.name, d.handle) */;
+		        			return /* log('collect area condition is needs title so skipping:', d.name, a.handle) */;
 		        	}
 		        
 		        	var tracked = data.impressions.some(function(i) { return i.name == d.name && i.title == d.title; });
@@ -250,6 +266,7 @@
 	        		return;
 	
 	        	var p = tar.closest(a.handle);
+	        	var needsti = (a.options && a.options.hastitle);
 	
 	        	if (a.disabled)
 	        		return log('click area disabled:', a.name);
@@ -268,17 +285,16 @@
 	        		list: a.list || settings.list || location.pathname,
 	        		cat: a.cat || settings.cat || document.title
 	        	};
-	        	
-	        	if (a.title && p.find(a.title)) {
+	        
+	        	if (a.title) {
 	
-	        		var ti = p.find(a.title).length ? p.find(a.title) : p;
-	        		ti = ti.text().trim().replace(/[\t\n\r]+/g, ' ').replace(/ +/g, ' ');
-	        		
-	        		if (ti && ti.length > 50)
-	        			ti = ti.substr(0, 50) + '..';
+	        		var ti = title(a, p);
 	        		
 	        		if (ti)
 	        			d.title = ti;
+	        		else
+	        		if (needsti)
+	        			return /* log('collect area condition is needs title so skipping:', d.name, a.handle) */;
 	        	}
 
 	        	var tracked = nodedup ? false : data.clicked.some(function(i) { return i.name == d.name && i.title == d.title; });
@@ -408,6 +424,50 @@
 	    	}
 	    };
 	    
+	    var handle = function(t, p) {
+	    	
+	    	var h = '';
+	    	
+	    	if (p)
+	    		h = handle(j(t).parent(), false) + ' > ';
+	    
+	    	h += j(t).get(0).tagName.toLowerCase();
+	    	
+	    	var id = j(t).attr('id');
+	    	
+	    	if (id)
+	    		h += '#' + id;
+	    	
+	    	var cls = j(t).attr('class');
+	    	
+	    	if (cls)
+	    		h += '.' + cls.split(' ').slice(0, 2).join('.');
+	    
+	    	return h;
+	    };
+	    
+	    var highlight = function() {
+	    
+	    	var at = document.elementFromPoint(data.mouse.x, data.mouse.y);
+	    	
+	    	if (data.highlighted == at)
+	    		return;
+	    	
+	    	var rect = at.getBoundingClientRect();
+
+	    	if (rect.x <= 0 || rect.y <= 0)
+	    		return;
+	    	
+	    	log('highlight:', rect);
+	    	data.highlighted = at;
+	    	
+	    	var ha = handle(at, true);
+	   
+	    	j('.arlgh').remove();
+	    	j('body').prepend( format(data.highlight, ha, rect.y + j(document).scrollTop() - 20, rect.x + j(document).scrollLeft(), rect.width, rect.height + 20, rect.height) );
+	    	
+	    };
+	    
 	    var trigger = function(evt, d, e) {
 	    	
 	    	if (data.on[evt])
@@ -491,6 +551,14 @@
 	      		log('init: settings.disable_storage is on, will push impressions on beforeuload, instantly for clicks');
 	      	}
 	      	
+	      	if (settings.debug) {
+	      		
+	      		document.addEventListener('mousemove', function(evt) { data.mouse = evt; }, false);
+	      		
+	      		data._highlight = setInterval(highlight, 1 * 500);
+	      		log('init: debug mode highlighting enabled');
+	      	}
+	      		
 	      	delete window.arealist_config;
 	      
 	      	return self;
