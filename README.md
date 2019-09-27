@@ -3,11 +3,11 @@
 
 <h2>Description:</h2>
 
-This custom script for Google Tag Manager makes it much easier to track impressions & clicks on a big number of UI elements based on visibility to the end user.
+This custom script for Google Tag Manager makes it much easier to track impressions & clicks on a large number of UI elements based on their visibility to the end user.
 
-Equally capable in complex single-page app contexts, the script can track impressions and clicks across a wide variety of dynamic HTML out there in the wild. In other words, it doesn't matter how exactly the element becomes visible in the user's viewport.
+Equally capable in complex single-page app contexts, the script can help you understand content performance of dynamic web properties much better than any old-fashioned "pageview" analytics implementation can.
 
-Native GTM triggers offer visibility logic, but are tedious to configure and troubleshoot. They also have to be configured for each individual element type, which makes them difficult to maintain for a big (or rapidly changing) set of elements. Re-using logic across multiple properties is also extremely tedious.
+Native GTM triggers already offer pretty sophisticated visibility logic, but are tedious to configure and troubleshoot. They also have to be configured for each individual element you want to track, which makes them difficult to maintain for a big (or rapidly changing) set of elements. Re-using any of that complex logic across multiple properties is also extremely onerous.
 
 In addition to reducing the complexities surrounding the creation and maintenance of robust visibility logic, the script features built-in persistence for efficient delayed collection (next onsite page load) and configurable GTM dataLayer pushes that work with a wide variety of implementations.
 
@@ -30,10 +30,11 @@ Create a GTM custom tag in your container of choice:
 			{ name: 'IQA Grid', handle: '.iqa-grid div', title: 'h3' },
 			{ name: 'HP Video', handle: '.hp-video' },
 			{ name: 'Video CTA Button', handle: '.iqa-cta .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
-			{ name: 'HP Flow Graphic', handle: '.hp-flow-graphic', options: { clickable: true } },
 			{ name: 'Flow CTA Button', handle: '.hp-flow .uk-button', title: '.uk-button', list: 'Homepage', cat: 'CTA Buttons' },
 			{ name: 'Blog Article', handle: 'article', title: 'h1', options: { multiple: true } },
 			{ name: 'Article Body', handle: 'article', title: 'h1', options: { single: true } },
+			{ name: 'Social Footer', handle: 'footer', options: { clickable: true } },
+			/* go wild... */
 		],
 
 		cat: 'Homepage Engagement',
@@ -51,7 +52,7 @@ Create a GTM custom tag in your container of choice:
 
 ```
 
-<b>Note:</b> In most situations, you'd want to include the contents of the main script inline rather than via the GitHub link shown in the basic example above.
+<b>Note:</b> In most situations, you'd want to include the contents of the main script inline rather than via the GitHub link shown in the basic example above. If you are running multiple configurations, it would make sense to place the script on your server so multiple tags can use it.
 
 <b>Note:</b> More advanced implementations may choose to populate some or all parts of arealist_config using GTM variables.
 
@@ -95,7 +96,7 @@ Create a GTM custom tag in your container of choice:
 
 <b>disable_clicks</b> - Set to true to suspend all click tracking.
 
-<b>disable_storage</b> - Set to true to disable use of window.localStorage to persist impressions and delay collections to the next onsite page load. When storage is disabled, both impressions and clicks will immediately enter the dataLayer. If enabled, clicks will enter the dataLayer immediately but impressions will be cached and sent on page unload.
+<b>disable_storage</b> - Set to true to disable use of window.localStorage to persist impressions data. When storage is disabled, both clicks and single impressions will immediately enter the dataLayer. Multiple impressions will enter on page unload. If disable_storage is set to false, clicks will enter the dataLayer immediately but impressions will be cached and sent on the next site page load (which means you risk losing some impressions from departing users who never return).
 
 <b>storage_key_name</b> - Customize the name of the localStorage key (default is 'AreaList_GTM') used by this tag instance. Useful if you are deploying multiple instances of the main tag across the same site.
 
