@@ -91,11 +91,11 @@ Create a GTM custom tag in your container of choice:
 
 <b>list</b> - Default GA eCommerce Product List name. If not specified, the relative URL path is picked up.
 
-<b>disable_impressions</b> - Set to true to disable impression tracking.
+<b>disable_impressions</b> - Set to true to suspend all impression tracking, focusing on just clicks.
 
-<b>disable_clicks</b> - Set to true to disable click tracking.
+<b>disable_clicks</b> - Set to true to suspend all click tracking.
 
-<b>disable_storage</b> - Set to true to disable use of window.localStorage to persist impressions and delay collections to the next onsite page load.
+<b>disable_storage</b> - Set to true to disable use of window.localStorage to persist impressions and delay collections to the next onsite page load. When storage is disabled, both impressions and clicks will immediately enter the dataLayer. If enabled, clicks will enter the dataLayer immediately but impressions will be cached and sent on page unload.
 
 <b>storage_key_name</b> - Customize the name of the localStorage key (default is 'AreaList_GTM') used by this tag instance. Useful if you are deploying multiple instances of the main tag across the same site.
 
@@ -103,8 +103,12 @@ Create a GTM custom tag in your container of choice:
 
 <b>impressions_event_name</b> - Default is 'AreaList Impressions'. Change it to see a different event name in data layer pushes.
 
+<b>impression_event_name</b> - Default is 'AreaList Impression'. Change it to see a different event name in data layer pushes.
+
 <b>clicks_event_name</b> - Default is 'AreaList Clicks'. Change it to see a different event name in data layer pushes.
+
+<b>click_event_name</b> - Default is 'AreaList Click'. Change it to see a different event name in data layer pushes.
 
 <b>polling_frequency</b> - Default is 3 sec. Setting this value to less than that is not recommended for reasons of both performance & accuracy (a small delay on impression collection ensures the user has had a chance to actually see the element).
 
-<b>extend_clickable</b> - Extend the definition of clickable objects with this selector string. Use this if clicks on certain special divs, e. g., are not being captured.
+<b>extend_clickable</b> - Extend the definition of clickable objects with this selector string. Use this if clicks on certain special divs, e. g., are not being captured or considered correctly by the area.options.clickable logic.

@@ -2,7 +2,7 @@
 	
 	/* https://www.github.com/plamzi/AreaList-GTM 
 	 * 
-	 * v1.0.0
+	 * v1.0.1
 	 * 
 	*/
 	
@@ -19,6 +19,10 @@
 		settings.impressions_event_name = settings.impressions_event_name || 'AreaList Impressions',
 		
 		settings.clicks_event_name = settings.clicks_event_name || 'AreaList Clicks',
+		
+		settings.impression_event_name = settings.impression_event_name || 'AreaList Impression',
+		
+		settings.click_event_name = settings.click_event_name || 'AreaList Click',
 		
 		settings.storage_key_name = settings.storage_key_name || 'AreaList_GTM';
 			
@@ -131,19 +135,32 @@
 	    	
 	    	save();
 	    };
-	 
+	
 	    var title = function(a, t) {
+
+	    	var needsti = (a.options && a.options.hastitle);
 	    	
 	    	var ti = t.find(a.title).length ? t.find(a.title).first() : null;
-	    	var needsti = (a.options && a.options.hastitle);
-	    	 
+
+	    	if (!ti && t.attr(a.title))
+	    		ti = t.attr(a.title);
+	    
+	    	try {
+	    		if (!ti && t.find('[' + a.title + ']'))
+	    				ti = t.find('[' + a.title + ']').first().attr(a.title);
+	    	} 
+	    	catch(ex) {
+	    	
+	    		log('title from attribute exception:', ex);
+	    	}
+	    	
     		if (!ti)
     			ti = t.parent().parent().parent().find(a.title).first();
-    		
+
     		if (!ti && needsti)
     			ti = t;
-    	
-    		if (ti)
+   
+    		if (ti && ti.text)
     			ti = ti.text().trim().replace(/[\r\n\t]+/g, ' ').replace(/ +/g, ' ');
     	
     		if (ti && ti.length > 50)
@@ -222,6 +239,9 @@
 		        		
 		        		data.impressions.push(d);
 		        		imps.push(d);
+		        		
+		        		if (settings.disable_storage)
+		        			push('impression', d);
 		        	}
 		        
 		        	if (settings.debug) {
@@ -309,6 +329,9 @@
 	        		
 	        		data.impressions.push(d);
 	        		log('collect impression on click:', JSON.stringify(d), data.impressions);
+
+	        		if (settings.disable_storage)
+	        			push('impression', d);
 	        	}
 	
 	          	log('collect click:', JSON.stringify(d), data.clicks);
@@ -317,6 +340,9 @@
 	        	
 	        		data.clicks.push(d);
 	          		clicks.push(d);
+	          		
+	        		if (settings.disable_storage)
+	        			push('click', d);
 	        	}
 		    });
 		    
@@ -359,7 +385,7 @@
 	    	log('fetch error: no such thing as', what);
 	    };
 	    
-	    var push = function(what) {
+	    var push = function(what, one) {
 	    
 	    	if (what == 'impressions') {
 	    		
@@ -421,6 +447,30 @@
 				  }
 				
 				});
+	    	}
+	    	
+	    	if (what == 'impression') {
+	    		
+	    		log('push impression:', one);
+	    		
+	    		!window[data.layer] || window[data.layer].push({
+	    			
+		    		event: settings.impression_event_name,
+
+		    		arealist: one
+	    		});
+	    	}
+	    		
+	    	if (what == 'click') {
+	    		
+	    		log('push click:', one);
+	    		
+	    		!window[data.layer] || window[data.layer].push({
+	    			
+		    		event: settings.click_event_name,
+
+		    		arealist: one
+	    		});
 	    	}
 	    };
 	    
