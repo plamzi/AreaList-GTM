@@ -2,7 +2,7 @@
 	
 	/* https://www.github.com/plamzi/AreaList-GTM 
 	 * 
-	 * v1.0.1
+	 * v1.0.2
 	 * 
 	*/
 	
@@ -151,7 +151,7 @@
 	    	} 
 	    	catch(ex) {
 	    	
-	    		log('title from attribute exception:', ex);
+	    		//log('title from attribute exception:', ex);
 	    	}
 	    	
     		if (!ti)
@@ -498,6 +498,9 @@
 	    
 	    var highlight = function() {
 	    
+	    	if (!data.mouse)
+	    		return;
+
 	    	var at = document.elementFromPoint(data.mouse.x, data.mouse.y);
 	    	
 	    	if (!at || data.highlighted == at)
